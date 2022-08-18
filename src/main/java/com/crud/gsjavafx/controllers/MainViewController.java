@@ -86,7 +86,7 @@ public class MainViewController implements Initializable {
             controller.setAnimal(selectedAnimal);
             controller.setFields();
             Stage stage = new Stage();
-            stage.setTitle("Edit: " + selectedAnimal.getName());
+            stage.setTitle("Update: " + selectedAnimal.getName());
             stage.setScene(new Scene(root));
             stage.show();
         } catch (IOException e) {
