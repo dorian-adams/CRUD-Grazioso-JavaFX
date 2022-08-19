@@ -3,8 +3,6 @@ package com.crud.gsjavafx.controllers;
 import com.crud.gsjavafx.utils.FormatCell;
 import com.crud.gsjavafx.models.AnimalList;
 import com.crud.gsjavafx.models.RescueAnimal;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,24 +18,19 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
 /** Controller for MainView. Handles ListView display as well as initiating actions on listView. */
 public class MainViewController implements Initializable {
     @FXML private ListView<RescueAnimal> listView;
-    public ArrayList<RescueAnimal> globalList = new ArrayList<>();
 
     /** Initialize ListView with the saved ArrayList, AnimalList.allAnimals. */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
             AnimalList.initializeList();
-            globalList = AnimalList.allAnimals;
-            ObservableList<RescueAnimal> animalList = FXCollections.observableArrayList();
-            animalList.addAll(globalList);
-            listView.setItems(animalList);
+            listView.setItems(AnimalList.allAnimals);
             listView.setCellFactory(new Callback<>() {
                 @Override public ListCell<RescueAnimal> call(ListView<RescueAnimal> list) {
                     return new FormatCell();
@@ -75,7 +68,7 @@ public class MainViewController implements Initializable {
     }
 
     /** Handles editAnimalButton action. */
-    public void animalToEdit(){
+    public void animalToEdit() {
         editAnimalWindow(getSelection());
     }
 
@@ -103,7 +96,7 @@ public class MainViewController implements Initializable {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirm deletion:");
         alert.setHeaderText("Warning: Clicking 'OK' will remove " + selectedAnimal.getName() + " from record.");
-        alert.setContentText("Click 'OK' to continue or 'cancel' to cancel this request.");
+        alert.setContentText("Click 'OK' to continue or 'Cancel' to cancel this request.");
         Optional<ButtonType> result = alert.showAndWait();
 
         if (result.get() == ButtonType.OK) {
