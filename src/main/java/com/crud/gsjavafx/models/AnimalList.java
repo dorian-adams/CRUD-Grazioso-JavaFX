@@ -1,29 +1,26 @@
 package com.crud.gsjavafx.models;
 
 import com.crud.gsjavafx.utils.Serializer;
-
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import java.io.IOException;
-import java.io.Serializable;
-import java.util.ArrayList;
 
 /**
  * A global list of RescueAnimal objects; stores all animals in an ArrayList for serialization.
  */
-public class AnimalList implements Serializable {
-    private static final long serialVersionUID = 2L;
-    public static ArrayList<RescueAnimal> allAnimals = new ArrayList<RescueAnimal>();
+public class AnimalList {
+    public static ObservableList<RescueAnimal> allAnimals = FXCollections.observableArrayList();
 
     /**
      * Populate public static field, allAnimals, on program start.
      *
      * @return the deserialized ArrayList composed of RescueAnimal(s).
      */
-    public static ArrayList<RescueAnimal> initializeList() {
+    public static void initializeList() {
         try {
-            allAnimals = Serializer.deserialize();
+            allAnimals.addAll(Serializer.deserialize());
         } catch(Exception e) {
         }
-        return allAnimals;
     }
 
     /** Add new animal to the list, allAnimals. */
