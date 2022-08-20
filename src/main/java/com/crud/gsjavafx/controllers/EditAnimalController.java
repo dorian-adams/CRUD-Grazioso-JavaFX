@@ -49,6 +49,9 @@ public class EditAnimalController {
         animal.setLocation(animalLocation.getText());
         animal.setTrainingStatus(trainingStatus.getText());
         animal.setReserved(reserved.getText());
+        animal.setSerializableName(animalName.getText());
+        animal.setSerializableSpecies(species.getText());
+        animal.setSerializableLocation(animalLocation.getText());
 
         AnimalList.saveAnimalList();
 
