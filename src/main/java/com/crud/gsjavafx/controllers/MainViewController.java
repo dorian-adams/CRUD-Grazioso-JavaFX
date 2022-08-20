@@ -1,6 +1,5 @@
 package com.crud.gsjavafx.controllers;
 
-import com.crud.gsjavafx.utils.FormatCell;
 import com.crud.gsjavafx.models.AnimalList;
 import com.crud.gsjavafx.models.RescueAnimal;
 import javafx.event.EventHandler;
@@ -9,13 +8,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
@@ -23,35 +19,36 @@ import java.util.ResourceBundle;
 
 /** Controller for MainView. Handles ListView display as well as initiating actions on listView. */
 public class MainViewController implements Initializable {
-    @FXML private ListView<RescueAnimal> listView;
+    @FXML private TableView<RescueAnimal> tableView;
+    @FXML private TableColumn<RescueAnimal, String> colName;
+    @FXML private TableColumn<RescueAnimal, String> colSpecies;
+    @FXML private TableColumn<RescueAnimal, String> colLocation;
 
     /** Initialize ListView with the saved ArrayList, AnimalList.allAnimals. */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
             AnimalList.initializeList();
-            listView.setItems(AnimalList.allAnimals);
-            listView.setCellFactory(new Callback<>() {
-                @Override public ListCell<RescueAnimal> call(ListView<RescueAnimal> list) {
-                    return new FormatCell();
-                }
-            });
+            colName.setCellValueFactory(data -> data.getValue().animalNameProperty());
+            colSpecies.setCellValueFactory(data -> data.getValue().animalSpeciesProperty());
+            colLocation.setCellValueFactory(data -> data.getValue().locationProperty());
+            colName.setCellFactory(TextFieldTableCell.forTableColumn());
+            colSpecies.setCellFactory(TextFieldTableCell.forTableColumn());
+            colLocation.setCellFactory(TextFieldTableCell.forTableColumn());
+            tableView.setItems(AnimalList.allAnimals);
         } catch(Exception e) {
         }
 
         // Set double-click event.
-        listView.setOnMouseClicked(new EventHandler<>() {
-            @Override
-            public void handle(MouseEvent click) {
-                if (click.getClickCount() == 2) {
-                    editAnimalWindow(getSelection());
-                }
+        tableView.setOnMouseClicked(click -> {
+            if (click.getClickCount() == 2) {
+                editAnimalWindow(getSelection());
             }
         });
     }
 
     public RescueAnimal getSelection() {
-        return listView.getSelectionModel().getSelectedItem();
+        return tableView.getSelectionModel().getSelectedItem();
     }
 
     /** Handles addAnimalButton action. */

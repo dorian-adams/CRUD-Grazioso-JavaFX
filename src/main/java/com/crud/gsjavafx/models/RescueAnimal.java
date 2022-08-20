@@ -1,5 +1,12 @@
 package com.crud.gsjavafx.models;
 
+import javafx.beans.binding.Binding;
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.StringBinding;
+import javafx.beans.property.Property;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 import java.io.Serial;
 import java.io.Serializable;
 
@@ -9,13 +16,16 @@ import java.io.Serializable;
 public class RescueAnimal implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
-    private String name;
-    private String animalType;
+    transient private SimpleStringProperty animalName;
+    transient private SimpleStringProperty animalSpecies;
+    transient private SimpleStringProperty location;
+    private String serializableName;
+    private String serializableSpecies;
     private String gender;
     private String age;
     private String weight;
     private String acquisitionDate;
-    private String location;
+    private String serializableLocation;
     private String trainingStatus;
     private String reserved;
 
@@ -23,7 +33,7 @@ public class RescueAnimal implements Serializable {
      * Default constructor.
      *
      * @param name name of the animal.
-     * @param animalType species of the animal.
+     * @param species species of the animal.
      * @param gender gender of the animal.
      * @param age animal's age.
      * @param weight weight in pounds.
@@ -32,34 +42,79 @@ public class RescueAnimal implements Serializable {
      * @param trainingStatus level of training completed.
      * @param reserved reserve status.
      */
-    public RescueAnimal(String name, String animalType, String gender, String age, String weight,
+    public RescueAnimal(String name, String species, String gender, String age, String weight,
                         String acquisitionDate, String location, String trainingStatus,
                         String reserved) {
-        setName(name);
-        setAnimalType(animalType);
-        setGender(gender);
-        setAge(age);
-        setWeight(weight);
-        setAcquisitionDate(acquisitionDate);
-        setLocation(location);
-        setTrainingStatus(trainingStatus);
-        setReserved(reserved);
+        // SimpleStringProperty.
+        this.animalName = new SimpleStringProperty(name);
+        this.animalSpecies = new SimpleStringProperty(species);
+        this.location = new SimpleStringProperty(location);
+        // String substitutes for SimpleStringProperty for serialization purposes.
+        this.serializableName = getName();
+        this.serializableSpecies = getAnimalType();
+        this.serializableLocation = getLocation();
+        // Standard String fields not used in TableView.
+        this.gender = gender;
+        this.age = age;
+        this.weight = weight;
+        this.acquisitionDate = acquisitionDate;
+        this.trainingStatus = trainingStatus;
+        this.reserved = reserved;
     }
 
+    // Retrieve SimpleStringProperty:
+    public SimpleStringProperty animalNameProperty() {
+        return animalName;
+    }
+
+    public SimpleStringProperty animalSpeciesProperty() {
+        return animalSpecies;
+    }
+
+    public SimpleStringProperty locationProperty() {
+        return location;
+    }
+
+    // Getters and setters for String substitutes for SimpleStringProperty.
+    public String getSerializableName() {
+        return serializableName;
+    }
+
+    public void setSerializableName(String name) {
+        this.serializableName = name;
+    }
+
+    public String getSerializableSpecies() {
+        return serializableSpecies;
+    }
+
+    public void setSerializableSpecies(String species) {
+        this.serializableSpecies = species;
+    }
+
+    public String getSerializableLocation() {
+        return serializableLocation;
+    }
+
+    public void setSerializableLocation(String location) {
+        this.serializableLocation = location;
+    }
+
+    // Standard getters and setters.
     public String getName() {
-        return name;
+        return animalName.get();
     }
 
     public void setName(String name) {
-        this.name = name;
+        animalName.set(name);
     }
 
     public String getAnimalType() {
-        return animalType;
+        return animalSpecies.get();
     }
 
-    public void setAnimalType(String animalType) {
-        this.animalType = animalType;
+    public void setAnimalType(String species) {
+        animalSpecies.set(species);
     }
 
     public String getGender() {
@@ -95,11 +150,11 @@ public class RescueAnimal implements Serializable {
     }
 
     public String getLocation() {
-        return location;
+        return location.get();
     }
 
     public void setLocation(String location) {
-        this.location = location;
+        this.location.set(location);
     }
 
     public String getReserved() {
