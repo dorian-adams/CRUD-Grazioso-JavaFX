@@ -7,8 +7,11 @@ import java.io.*;
 import java.util.ArrayList;
 
 /** Serialize and deserialize ArrayList AnimalList.allAnimals (see: {@link AnimalList}). */
-public class Serializer {
+public final class Serializer {
     private static final String PATH = "data.bin";
+
+    /** Serializer is static-only, and not to be instantiated. */
+    private Serializer() {}
 
     public static void serialize(ObservableList<RescueAnimal> observableListAnimals) throws IOException {
         try(var serializer = new ObjectOutputStream(new FileOutputStream(PATH, false))) {

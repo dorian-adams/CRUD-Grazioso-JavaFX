@@ -8,8 +8,11 @@ import java.io.IOException;
 /**
  * A global list of RescueAnimal objects; stores all animals in an ArrayList for serialization.
  */
-public class AnimalList {
+public final class AnimalList {
     public static ObservableList<RescueAnimal> allAnimals = FXCollections.observableArrayList();
+
+    /** AnimalList is static-only, and not to be instantiated. */
+    private AnimalList() {}
 
     /**
      * Populate public static field, allAnimals, on program start.

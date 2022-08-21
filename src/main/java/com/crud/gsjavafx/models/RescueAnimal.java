@@ -1,12 +1,6 @@
 package com.crud.gsjavafx.models;
 
-import javafx.beans.binding.Binding;
-import javafx.beans.binding.Bindings;
-import javafx.beans.binding.StringBinding;
-import javafx.beans.property.Property;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
-
 import java.io.Serial;
 import java.io.Serializable;
 
@@ -14,8 +8,7 @@ import java.io.Serializable;
  *
  */
 public class RescueAnimal implements Serializable {
-    @Serial
-    private static final long serialVersionUID = 1L;
+    @Serial private static final long serialVersionUID = 1L;
     transient private SimpleStringProperty animalName;
     transient private SimpleStringProperty animalSpecies;
     transient private SimpleStringProperty location;
