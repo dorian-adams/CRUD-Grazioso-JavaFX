@@ -15,12 +15,12 @@ public class RescueAnimal implements Serializable {
     private String serializableName;
     private String serializableSpecies;
     private String gender;
-    private String age;
-    private String weight;
+    private int age;
+    private int weight;
     private String acquisitionDate;
     private String serializableLocation;
-    private String trainingStatus;
-    private String reserved;
+    private int trainingStatus;
+    private boolean reserved;
 
     /**
      * Default constructor.
@@ -35,9 +35,9 @@ public class RescueAnimal implements Serializable {
      * @param trainingStatus level of training completed.
      * @param reserved reserve status.
      */
-    public RescueAnimal(String name, String species, String gender, String age, String weight,
-                        String acquisitionDate, String location, String trainingStatus,
-                        String reserved) {
+    public RescueAnimal(String name, String species, String gender, int age, int weight,
+                        String acquisitionDate, String location, int trainingStatus,
+                        boolean reserved) {
         // SimpleStringProperty.
         this.animalName = new SimpleStringProperty(name);
         this.animalSpecies = new SimpleStringProperty(species);
@@ -118,19 +118,19 @@ public class RescueAnimal implements Serializable {
         this.gender = gender;
     }
 
-    public String getAge() {
+    public int getAge() {
         return age;
     }
 
-    public void setAge(String age) {
+    public void setAge(int age) {
         this.age = age;
     }
 
-    public String getWeight() {
+    public int getWeight() {
         return weight;
     }
 
-    public void setWeight(String weight) {
+    public void setWeight(int weight) {
         this.weight = weight;
     }
 
@@ -150,19 +150,19 @@ public class RescueAnimal implements Serializable {
         this.location.set(location);
     }
 
-    public String getReserved() {
+    public boolean getReserved() {
         return reserved;
     }
 
-    public void setReserved(String reserved) {
+    public void setReserved(boolean reserved) {
         this.reserved = reserved;
     }
 
-    public String getTrainingStatus() {
+    public int getTrainingStatus() {
         return trainingStatus;
     }
 
-    public void setTrainingStatus(String trainingStatus) {
+    public void setTrainingStatus(int trainingStatus) {
         this.trainingStatus = trainingStatus;
     }
 }
