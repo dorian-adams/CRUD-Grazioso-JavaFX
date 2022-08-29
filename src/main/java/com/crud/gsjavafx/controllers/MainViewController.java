@@ -35,6 +35,7 @@ public class MainViewController implements Initializable {
             colLocation.setCellFactory(TextFieldTableCell.forTableColumn());
             tableView.setItems(AnimalList.allAnimals);
         } catch(Exception e) {
+            e.printStackTrace();
         }
 
         // Set double-click event.
@@ -49,34 +50,32 @@ public class MainViewController implements Initializable {
         return tableView.getSelectionModel().getSelectedItem();
     }
 
-    /** Handles addAnimalButton action. */
-    public void addAnimalWindow() {
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("/com/crud/gsjavafx/addAnimalView.fxml"));
-            Stage stage = new Stage();
-            stage.setTitle("Intake a New Animal:");
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    /** Handles action for the 'Add' Button. */
+    public void addNewButton() {
+        editAnimalWindow(null);
     }
 
-    /** Handles editAnimalButton action. */
-    public void animalToEdit() {
+    /** Handles action for the 'Edit' Button. */
+    public void editButton() {
         editAnimalWindow(getSelection());
     }
 
     /** Opens new window to edit selected animal. */
     public void editAnimalWindow(RescueAnimal selectedAnimal) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/crud/gsjavafx/editAnimalView.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/crud/gsjavafx/addAnimalView.fxml"));
             Parent root = loader.load();
-            EditAnimalController controller = loader.getController();
-            controller.setAnimal(selectedAnimal);
-            controller.setFields();
+            if (selectedAnimal != null) {
+                AddAnimalController controller = loader.getController();
+                controller.setSelectedAnimal(selectedAnimal);
+                controller.setFields();
+            }
             Stage stage = new Stage();
-            stage.setTitle("Update: " + selectedAnimal.getName());
+            if (selectedAnimal != null) {
+                stage.setTitle("Updating: " + selectedAnimal.getName());
+            } else {
+                stage.setTitle("Add New Animal to Record:");
+            }
             stage.setScene(new Scene(root));
             stage.show();
         } catch (IOException e) {
