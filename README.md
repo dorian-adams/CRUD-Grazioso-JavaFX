@@ -13,14 +13,14 @@ This CRUD application is designed to intake and track an animal's training statu
 * Sortable table view
 * Input validation
 * User interface
-* MVC design pattern
+* MVC architecture
 * CRUD
 
 ## Purpose
 This project began as a class assignment that I expanded upon to try my hands at something more complex. The original assignment involved creating a Java application that took input from the console and managed animals for a mock company called Grazioso. To make this into a full-featured CRUD app, I added a UI via JavaFX, serialization/deserialization to save data across uses, and more. My goal was to create a more professional and complete program for better practice.
 
 ## What I Learned
-In working on this project, I honed three valuable skills: research, implementing professional design patterns, and even Android development. At the onset of this project, I had no previous exposure to JavaFX. To increase my familiarity, I utilized various tools provided by the IDE and consulted official documentation when more in-depth research was required. As such, I'm now more confident in adapting to new libraries quickly. The design architecture I used, Model-View-Controller, can be applied to various languages and applications. Implementing MVC in this project was a great lesson in the benefits of creating highly focused and organized components. The result is a very easy codebase to read, expand upon, and manage. Surprisingly, I've also found many of the practices and techniques used in JavaFX are highly applicable to Android development, which I look forward to exploring soon.
+In working on this project, I honed three valuable skills: research, implementing professional design patterns, and even Android development. At the onset of this project, I had no previous exposure to JavaFX. To increase my familiarity, I utilized various tools provided by the IDE and consulted official documentation when more in-depth research was required. As such, I'm now more confident in adapting to new libraries quickly. The design architecture I used, Model-View-Controller, can be applied to various languages and applications. Implementing MVC in this project was a great lesson in the benefits of creating highly focused and organized components. The result is a very easy codebase to read, expand upon, and manage. Surprisingly, I've also found that many of the practices and techniques used in JavaFX are highly applicable to Android development, which I look forward to exploring soon.
 
 ## Code Snippets
 Initialize the table:
