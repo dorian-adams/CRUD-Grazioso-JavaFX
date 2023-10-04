@@ -85,6 +85,7 @@ public class AddAnimalController implements Initializable {
 
     /** Handles action for Save button */
     public void saveAnimal() {
+        // Update existing
         if (selectedAnimal != null) {
             selectedAnimal.setName(animalName.getText());
             selectedAnimal.setAnimalType(animalType.getText());
@@ -95,10 +96,8 @@ public class AddAnimalController implements Initializable {
             selectedAnimal.setLocation(animalLocation.getText());
             selectedAnimal.setTrainingStatus(Integer.parseInt(trainingStatus.getValue().toString()));
             selectedAnimal.setReserved(reserved.isSelected());
-            selectedAnimal.setSerializableName(animalName.getText());
-            selectedAnimal.setSerializableSpecies(animalType.getText());
-            selectedAnimal.setSerializableLocation(animalLocation.getText());
         } else {
+            // Create new
             RescueAnimal newAnimal = new RescueAnimal(animalName.getText(), animalType.getText(),
                     gender.getValue(), Integer.parseInt(age.getValue().toString()),
                     Integer.parseInt(weight.getValue().toString()), acquisitionDate.getValue().toString(),
