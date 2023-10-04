@@ -14,11 +14,7 @@ public final class AnimalList {
     /** AnimalList is static-only, and not to be instantiated. */
     private AnimalList() {}
 
-    /**
-     * Populate public static field, allAnimals, on program start.
-     *
-     * @return the deserialized ArrayList composed of RescueAnimal(s).
-     */
+    /** Populate public static field, allAnimals, on program start. */
     public static void initializeList() {
         try {
             allAnimals.addAll(Serializer.deserialize());
@@ -31,7 +27,7 @@ public final class AnimalList {
         allAnimals.add(animal);
     }
 
-    /** Serialize the list, allAnimals. */
+    /** Serialize all objects in allAnimals */
     public static void saveAnimalList() {
         try {
             Serializer.serialize(allAnimals);

@@ -6,30 +6,31 @@ import javafx.collections.ObservableList;
 import java.io.*;
 import java.util.ArrayList;
 
-/** Serialize and deserialize ArrayList AnimalList.allAnimals (see: {@link AnimalList}). */
+/** Serialize and deserialize animal objects (see: {@link AnimalList}). */
 public final class Serializer {
     private static final String PATH = "data.bin";
 
     /** Serializer is static-only, and not to be instantiated. */
     private Serializer() {}
 
-    public static void serialize(ObservableList<RescueAnimal> observableListAnimals) throws IOException {
+    public static void serialize(ObservableList<RescueAnimal> animals) throws IOException {
         try(var serializer = new ObjectOutputStream(new FileOutputStream(PATH, false))) {
-            ArrayList<RescueAnimal> convertedList = new ArrayList<>(observableListAnimals);
-            serializer.writeObject(convertedList);
+            for (RescueAnimal animal : animals) {
+                serializer.writeObject(animal);
+            }
         }
     }
 
     public static ArrayList<RescueAnimal> deserialize() throws IOException, ClassNotFoundException {
         try(ObjectInputStream objectIn = new ObjectInputStream(new FileInputStream(PATH))) {
             ArrayList<RescueAnimal> deserializedArrayList = new ArrayList<>();
-            for (RescueAnimal animal : (ArrayList<RescueAnimal>) objectIn.readObject()) {
-                RescueAnimal deserializedAnimal = new RescueAnimal(
-                        animal.getSerializableName(), animal.getSerializableSpecies(), animal.getGender(),
-                        animal.getAge(), animal.getWeight(), animal.getAcquisitionDate(),
-                        animal.getSerializableLocation(), animal.getTrainingStatus(), animal.getReserved()
-                );
-                deserializedArrayList.add(deserializedAnimal);
+            while (true) {
+                try {
+                    RescueAnimal deserializedAnimal = (RescueAnimal) objectIn.readObject();
+                    deserializedArrayList.add(deserializedAnimal);
+                } catch (EOFException eof) {
+                    break;
+                }
             }
             return deserializedArrayList;
         }

@@ -22,7 +22,7 @@ public class MainViewController implements Initializable {
     @FXML private TableColumn<RescueAnimal, String> colSpecies;
     @FXML private TableColumn<RescueAnimal, String> colLocation;
 
-    /** Initialize ListView with the saved ArrayList, AnimalList.allAnimals. */
+    /** Initialize TableView with the saved ArrayList, AnimalList.allAnimals. */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
