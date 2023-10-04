@@ -3,6 +3,7 @@ package com.crud.gsjavafx.models;
 import com.crud.gsjavafx.utils.Serializer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+
 import java.io.IOException;
 
 /**

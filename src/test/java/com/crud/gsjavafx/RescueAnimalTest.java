@@ -1,16 +1,14 @@
 package com.crud.gsjavafx;
 
-import java.io.*;
-import static org.junit.jupiter.api.Assertions.*;
-import org.junit.jupiter.api.Test;
+import com.crud.gsjavafx.models.RescueAnimal;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
+import java.io.*;
 
-import com.crud.gsjavafx.models.RescueAnimal;
-
-import java.io.IOException;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 @DisplayName("Model Test: RescueAnimal")
