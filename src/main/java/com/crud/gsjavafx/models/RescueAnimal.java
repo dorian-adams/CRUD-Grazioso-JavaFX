@@ -5,6 +5,7 @@ import javafx.beans.property.SimpleStringProperty;
 import java.io.IOException;
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  *
@@ -68,6 +69,21 @@ public class RescueAnimal implements Serializable {
         animalName = new SimpleStringProperty(name);
         animalSpecies = new SimpleStringProperty(species);
         location = new SimpleStringProperty(loc);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(animalName, animalSpecies, location);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        RescueAnimal animal = (RescueAnimal) obj;
+        return animalName.get().equals(animal.animalName.get()) &&
+                animalSpecies.get().equals(animal.animalSpecies.get()) &&
+                location.get().equals(animal.location.get());
     }
 
     // Retrieve SimpleStringProperty:
