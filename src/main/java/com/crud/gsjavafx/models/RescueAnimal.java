@@ -2,19 +2,16 @@ package com.crud.gsjavafx.models;
 
 import javafx.beans.property.SimpleStringProperty;
 
-import java.io.IOException;
-import java.io.Serial;
-import java.io.Serializable;
 import java.sql.Date;
 import java.util.Objects;
 
 /**
  *
  */
-public class RescueAnimal implements Serializable {
-    transient private SimpleStringProperty animalName;
-    transient private SimpleStringProperty animalSpecies;
-    transient private SimpleStringProperty location;
+public class RescueAnimal {
+    private final SimpleStringProperty animalName;
+    private final SimpleStringProperty animalSpecies;
+    private final SimpleStringProperty location;
     private String gender;
     private int age;
     private int weight;
@@ -57,26 +54,6 @@ public class RescueAnimal implements Serializable {
                         boolean reserved, int id) {
         this(name, species, gender, age, weight, acquisitionDate, location, trainingStatus, reserved);
         this.id = id;
-    }
-
-    private void writeObject(java.io.ObjectOutputStream out) throws IOException {
-        out.defaultWriteObject();
-
-        out.writeObject(animalName.get());
-        out.writeObject(animalSpecies.get());
-        out.writeObject(location.get());
-    }
-
-    private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {
-        in.defaultReadObject();
-
-        String name = (String) in.readObject();
-        String species = (String) in.readObject();
-        String loc = (String) in.readObject();
-
-        animalName = new SimpleStringProperty(name);
-        animalSpecies = new SimpleStringProperty(species);
-        location = new SimpleStringProperty(loc);
     }
 
     @Override
