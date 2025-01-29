@@ -1,6 +1,6 @@
 package com.crud.gsjavafx.controllers;
 
-import com.crud.gsjavafx.models.AnimalList;
+import com.crud.gsjavafx.models.AnimalService;
 import com.crud.gsjavafx.models.RescueAnimal;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -25,19 +25,19 @@ public class MainViewController implements Initializable {
     @FXML private TableColumn<RescueAnimal, String> colName;
     @FXML private TableColumn<RescueAnimal, String> colSpecies;
     @FXML private TableColumn<RescueAnimal, String> colLocation;
+    private final AnimalService animalService = AnimalService.getInstance();
 
-    /** Initialize TableView with the saved ArrayList, AnimalList.allAnimals. */
+    /** Initialize TableView. */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
-            AnimalList.initializeList();
             colName.setCellValueFactory(data -> data.getValue().animalNameProperty());
             colSpecies.setCellValueFactory(data -> data.getValue().animalSpeciesProperty());
             colLocation.setCellValueFactory(data -> data.getValue().locationProperty());
             colName.setCellFactory(TextFieldTableCell.forTableColumn());
             colSpecies.setCellFactory(TextFieldTableCell.forTableColumn());
             colLocation.setCellFactory(TextFieldTableCell.forTableColumn());
-            tableView.setItems(AnimalList.allAnimals);
+            tableView.setItems(animalService.getAllAnimals());
         } catch(Exception e) {
             e.printStackTrace();
         }
@@ -98,8 +98,7 @@ public class MainViewController implements Initializable {
         Optional<ButtonType> result = alert.showAndWait();
 
         if (result.get() == ButtonType.OK) {
-            AnimalList.allAnimals.remove(selectedAnimal);
-            AnimalList.saveAnimalList();
+            animalService.doDelete(selectedAnimal);
         } else {
             alert.close();
         }

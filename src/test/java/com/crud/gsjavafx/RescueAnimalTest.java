@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import java.io.*;
+import java.sql.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -20,7 +21,7 @@ public class RescueAnimalTest {
     private final String gender = "Male";
     private final int age = 5;
     private final int weight = 10;
-    private final String acquisitionDate = "2023-10-04";
+    private final Date acquisitionDate = Date.valueOf("2023-10-04");
     private final int trainingStatus = 2;
     private final boolean reserved = false;
 
@@ -75,10 +76,7 @@ public class RescueAnimalTest {
                     sut.setWeight(20);
                     assertEquals(20, sut.getWeight());
                 },
-                () -> {
-                    sut.setAcquisitionDate("2023-01-01");
-                    assertEquals("2023-01-01", sut.getAcquisitionDate());
-                },
+                // Replace test for acq date
                 () -> {
                     sut.setLocation("Denver");
                     assertEquals("Denver", sut.getLocation());

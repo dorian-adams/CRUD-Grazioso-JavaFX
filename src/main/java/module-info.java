@@ -9,6 +9,8 @@ module com.crud.gsjavafx {
     requires org.kordamp.ikonli.javafx;
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
+    requires java.sql;
+    requires mysql.connector.j;
 
     opens com.crud.gsjavafx to javafx.fxml;
     exports com.crud.gsjavafx;
