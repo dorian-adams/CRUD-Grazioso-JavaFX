@@ -11,22 +11,26 @@ import java.sql.Date;
  * which is required for the TableView in MainViewController.
  */
 public final class AnimalService {
-    private static final AnimalService instance = new AnimalService();
     private final RescueAnimalDAO animalDAO;
     private final ObservableList<RescueAnimal> allAnimals = FXCollections.observableArrayList();
+    private static boolean dataLoaded = false;
 
-    private AnimalService() {
-        this.animalDAO = new RescueAnimalDAO();
-        loadFromDb();
-    }
+    public AnimalService(final RescueAnimalDAO dao) {
+        if (dao == null) {
+            throw new IllegalArgumentException("dao must not be null.");
+        }
+        this.animalDAO = dao;
+        animalDAO.getConnection();
 
-    public static AnimalService getInstance() {
-        return instance;
+        if (!dataLoaded) {
+            loadFromDb();
+        }
     }
 
     /** Populate allAnimals from the database. */
     private void loadFromDb() {
         allAnimals.addAll(animalDAO.getAll());
+        dataLoaded = true;
     }
 
     /** Remove from list and delete from database */

@@ -1,7 +1,7 @@
 package com.crud.gsjavafx;
 
-import com.crud.gsjavafx.models.AnimalService;
-import com.crud.gsjavafx.utils.RescueAnimalDAO;
+import com.crud.gsjavafx.controllers.MainViewController;
+import com.crud.gsjavafx.utils.DependencyFactory;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -16,13 +16,9 @@ public class Driver extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-
-        RescueAnimalDAO.getConnection();
-        if (!RescueAnimalDAO.tableExists()) {
-            RescueAnimalDAO.createTable();
-        }
-
-        Parent root = FXMLLoader.load(getClass().getResource("mainView.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("mainView.fxml"));
+        loader.setControllerFactory(c -> new MainViewController(DependencyFactory.createAnimalService()));
+        Parent root = loader.load();
         primaryStage.setTitle("Grazioso Salvare - Training Rescue Animals Since 1965");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();

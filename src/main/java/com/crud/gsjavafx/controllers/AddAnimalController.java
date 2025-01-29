@@ -30,7 +30,11 @@ public class AddAnimalController implements Initializable {
     @FXML CheckBox reserved;
     private RescueAnimal selectedAnimal;
     private final ArrayList<InputValidationController<Node>> nodes = new ArrayList<>();
-    private final AnimalService animalService = AnimalService.getInstance();
+    private final AnimalService animalService;
+
+    public AddAnimalController(AnimalService animalService) {
+        this.animalService = animalService;
+    }
 
     /** Allows MainViewController to set the instance that's being edited. */
     public void setSelectedAnimal(RescueAnimal selectedAnimal) {

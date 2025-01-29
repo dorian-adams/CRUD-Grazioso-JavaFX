@@ -25,7 +25,11 @@ public class MainViewController implements Initializable {
     @FXML private TableColumn<RescueAnimal, String> colName;
     @FXML private TableColumn<RescueAnimal, String> colSpecies;
     @FXML private TableColumn<RescueAnimal, String> colLocation;
-    private final AnimalService animalService = AnimalService.getInstance();
+    private final AnimalService animalService;
+
+    public MainViewController(AnimalService animalService) {
+        this.animalService = animalService;
+    }
 
     /** Initialize TableView. */
     @Override
@@ -68,6 +72,7 @@ public class MainViewController implements Initializable {
     public void editAnimalWindow(RescueAnimal selectedAnimal) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/crud/gsjavafx/addAnimalView.fxml"));
+            loader.setControllerFactory(c -> new AddAnimalController(animalService));
             Parent root = loader.load();
             if (selectedAnimal != null) {
                 AddAnimalController controller = loader.getController();

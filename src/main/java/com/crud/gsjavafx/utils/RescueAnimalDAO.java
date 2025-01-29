@@ -17,10 +17,13 @@ public class RescueAnimalDAO {
 
     public RescueAnimalDAO() {}
 
-    public static void getConnection() {
+    public void getConnection() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             conn = DriverManager.getConnection(URL);
+            if (!tableExists()) {
+                createTable();
+            }
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
