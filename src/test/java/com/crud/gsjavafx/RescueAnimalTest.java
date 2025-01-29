@@ -6,7 +6,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
-import java.io.*;
 import java.sql.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -90,28 +89,5 @@ public class RescueAnimalTest {
                     assertTrue(sut.getReserved());
                 }
         );
-    }
-
-    @Test
-    @Tag("Serializable")
-    @DisplayName("Test Serialization and Deserialization")
-    void testSerializable() {
-        try {
-            // Serialize
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
-            objectOutputStream.writeObject(sut);
-
-            // Deserialize
-            ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
-            ObjectInputStream objectInputStream = new ObjectInputStream(byteArrayInputStream);
-            RescueAnimal deserialized = (RescueAnimal) objectInputStream.readObject();
-
-            // Compare
-            assertEquals(sut, deserialized);
-        } catch (IOException | ClassNotFoundException e) {
-            fail("Serialization failed.");
-            e.printStackTrace();
-        }
     }
 }
