@@ -11,6 +11,7 @@ module com.crud.gsjavafx {
     requires eu.hansolo.tilesfx;
     requires java.sql;
     requires mysql.connector.j;
+    requires com.zaxxer.hikari;
 
     opens com.crud.gsjavafx to javafx.fxml;
     exports com.crud.gsjavafx;
