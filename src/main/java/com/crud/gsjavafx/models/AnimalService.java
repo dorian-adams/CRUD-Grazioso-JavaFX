@@ -1,6 +1,7 @@
 package com.crud.gsjavafx.models;
 
 import com.crud.gsjavafx.utils.RescueAnimalDAO;
+import jakarta.inject.Inject;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -15,12 +16,12 @@ public final class AnimalService {
     private final ObservableList<RescueAnimal> allAnimals = FXCollections.observableArrayList();
     private static boolean dataLoaded = false;
 
+    @Inject
     public AnimalService(final RescueAnimalDAO dao) {
         if (dao == null) {
             throw new IllegalArgumentException("dao must not be null.");
         }
         this.animalDAO = dao;
-        animalDAO.getConnection();
 
         if (!dataLoaded) {
             loadFromDb();

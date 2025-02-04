@@ -4,36 +4,35 @@ import com.crud.gsjavafx.models.RescueAnimal;
 
 import java.sql.*;
 
+import com.zaxxer.hikari.HikariDataSource;
+import jakarta.inject.Inject;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 @SuppressWarnings("SpellCheckingInspection")
 public class RescueAnimalDAO {
-    private static final String USERNAME = "admin";
-    private static final String PASSWORD = "password";
-    private static final String URL = "jdbc:mysql://localhost/graz?user="+USERNAME+"&password="+PASSWORD;
+    private final HikariDataSource ds;
     private static final String TABLE = "rescue_animal";
-    private static Connection conn = null;
 
-    public RescueAnimalDAO() {}
+    @Inject
+    public RescueAnimalDAO(HikariDataSource ds) {
+        if (ds == null) {
+            throw new IllegalArgumentException("DataSource must not be null");
+        }
+        this.ds = ds;
 
-    public void getConnection() {
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            conn = DriverManager.getConnection(URL);
-            if (!tableExists()) {
-                createTable();
-            }
-        } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
+        if (!tableExists()) {
+            createTable();
         }
     }
 
     public ObservableList<RescueAnimal> getAll() {
         ObservableList<RescueAnimal> animals = FXCollections.observableArrayList();
 
-        try (Statement stmt = conn.createStatement()) {
-            ResultSet rs = stmt.executeQuery("SELECT * FROM rescue_animal");
+        try (Connection conn = ds.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery("SELECT * FROM rescue_animal")) {
+
             while (rs.next()) {
                 RescueAnimal animal = new RescueAnimal(
                         rs.getString("name"),
@@ -68,7 +67,8 @@ public class RescueAnimalDAO {
                 "reserved) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
-        try (PreparedStatement stmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
+        try (Connection conn = ds.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
             stmt.setString(1, animal.getName());
             stmt.setString(2, animal.getAnimalType());
             stmt.setString(3, animal.getGender());
@@ -80,7 +80,6 @@ public class RescueAnimalDAO {
             stmt.setBoolean(9, animal.getReserved());
 
             int rowsAffected = stmt.executeUpdate();
-
             if (rowsAffected > 0) {
                 ResultSet generatedKeys = stmt.getGeneratedKeys();
                 if (generatedKeys.next()) {
@@ -110,7 +109,8 @@ public class RescueAnimalDAO {
                 "reserved=? " +
                 "WHERE id=?;";
 
-        try (PreparedStatement stmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
+        try (Connection conn = ds.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
             stmt.setString(1, animal.getName());
             stmt.setString(2, animal.getAnimalType());
             stmt.setString(3, animal.getGender());
@@ -131,17 +131,18 @@ public class RescueAnimalDAO {
     public void delete (RescueAnimal animal) {
         String sql = "DELETE from rescue_animal WHERE id=?;";
 
-        try (PreparedStatement pstmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
+        try (Connection conn = ds.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
             pstmt.setInt(1, animal.getId());
-
             pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public static boolean tableExists() {
-        try (ResultSet rs = conn.getMetaData().getTables(null, null, TABLE, new String[]{"TABLE"})) {
+    private boolean tableExists() {
+        try (Connection conn = ds.getConnection();
+             ResultSet rs = conn.getMetaData().getTables(null, null, TABLE, new String[]{"TABLE"});) {
             return rs.next();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -149,7 +150,7 @@ public class RescueAnimalDAO {
         }
     }
 
-    public static void createTable() {
+    private void createTable() {
         String createTableSQL = "CREATE TABLE rescue_animal (" +
                 "id SERIAL PRIMARY KEY, " +
                 "name VARCHAR(50), " +
@@ -163,7 +164,8 @@ public class RescueAnimalDAO {
                 "reserved BOOLEAN" +
                 ");";
 
-        try (Statement stmt = conn.createStatement()) {
+        try (Connection conn = ds.getConnection();
+             Statement stmt = conn.createStatement()) {
             stmt.executeUpdate(createTableSQL);
         } catch (SQLException e) {
             e.printStackTrace();

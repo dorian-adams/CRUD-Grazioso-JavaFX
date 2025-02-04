@@ -2,6 +2,8 @@ package com.crud.gsjavafx.controllers;
 
 import com.crud.gsjavafx.models.AnimalService;
 import com.crud.gsjavafx.models.RescueAnimal;
+import dev.mccue.feather.DependencyInjector;
+import jakarta.inject.Inject;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -26,9 +28,13 @@ public class MainViewController implements Initializable {
     @FXML private TableColumn<RescueAnimal, String> colSpecies;
     @FXML private TableColumn<RescueAnimal, String> colLocation;
     private final AnimalService animalService;
+    private FXMLLoader loader;
+    private final DependencyInjector injector;
 
-    public MainViewController(AnimalService animalService) {
+    @Inject
+    public MainViewController(AnimalService animalService, DependencyInjector injector) {
         this.animalService = animalService;
+        this.injector = injector;
     }
 
     /** Initialize TableView. */
@@ -72,7 +78,7 @@ public class MainViewController implements Initializable {
     public void editAnimalWindow(RescueAnimal selectedAnimal) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/crud/gsjavafx/addAnimalView.fxml"));
-            loader.setControllerFactory(c -> new AddAnimalController(animalService));
+            loader.setControllerFactory(injector::instance);
             Parent root = loader.load();
             if (selectedAnimal != null) {
                 AddAnimalController controller = loader.getController();

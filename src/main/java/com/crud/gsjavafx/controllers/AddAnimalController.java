@@ -2,7 +2,7 @@ package com.crud.gsjavafx.controllers;
 
 import com.crud.gsjavafx.models.AnimalService;
 import com.crud.gsjavafx.models.RescueAnimal;
-import com.crud.gsjavafx.utils.RescueAnimalDAO;
+import jakarta.inject.Inject;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -32,6 +32,7 @@ public class AddAnimalController implements Initializable {
     private final ArrayList<InputValidationController<Node>> nodes = new ArrayList<>();
     private final AnimalService animalService;
 
+    @Inject
     public AddAnimalController(AnimalService animalService) {
         this.animalService = animalService;
     }

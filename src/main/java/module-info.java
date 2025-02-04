@@ -12,6 +12,7 @@ module com.crud.gsjavafx {
     requires java.sql;
     requires mysql.connector.j;
     requires com.zaxxer.hikari;
+    requires dev.mccue.feather;
 
     opens com.crud.gsjavafx to javafx.fxml;
     exports com.crud.gsjavafx;
