@@ -1,1 +1,12 @@
+# IDE specific files
 .idea/
+*.iml
+
+# Compiled class files
+*.class
+
+# Build directories
+target/
+
+# Crash logs (JVM)
+hs_err_pid*
