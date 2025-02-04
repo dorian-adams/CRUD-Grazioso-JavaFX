@@ -1,6 +1,6 @@
 package com.crud.gsjavafx;
 
-import com.crud.gsjavafx.utils.DIModule;
+import com.crud.gsjavafx.config.DIModule;
 import dev.mccue.feather.DependencyInjector;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

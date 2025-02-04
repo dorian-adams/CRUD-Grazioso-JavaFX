@@ -1,4 +1,4 @@
-package com.crud.gsjavafx.utils;
+package com.crud.gsjavafx.dao;
 
 import com.crud.gsjavafx.models.RescueAnimal;
 

@@ -1,4 +1,4 @@
-package com.crud.gsjavafx.utils;
+package com.crud.gsjavafx.config;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;

@@ -1,6 +1,6 @@
 package com.crud.gsjavafx.models;
 
-import com.crud.gsjavafx.utils.RescueAnimalDAO;
+import com.crud.gsjavafx.dao.RescueAnimalDAO;
 import jakarta.inject.Inject;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

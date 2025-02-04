@@ -18,6 +18,8 @@ module com.crud.gsjavafx {
     exports com.crud.gsjavafx;
     exports com.crud.gsjavafx.controllers;
     opens com.crud.gsjavafx.controllers to javafx.fxml;
-    exports com.crud.gsjavafx.utils;
-    opens com.crud.gsjavafx.utils to javafx.fxml;
+    exports com.crud.gsjavafx.config;
+    opens com.crud.gsjavafx.config to javafx.fxml;
+    exports com.crud.gsjavafx.dao;
+    opens com.crud.gsjavafx.dao to javafx.fxml;
 }
