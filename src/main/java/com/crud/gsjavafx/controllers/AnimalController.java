@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 /** Create and add animal to AnimalList.allAnimals then serialize. */
-public class AddAnimalController implements Initializable {
+public class AnimalController implements Initializable {
     @FXML private GridPane grid;
     @FXML Button saveButton;
     @FXML TextField animalName;
@@ -33,7 +33,7 @@ public class AddAnimalController implements Initializable {
     private final AnimalService animalService;
 
     @Inject
-    public AddAnimalController(AnimalService animalService) {
+    public AnimalController(AnimalService animalService) {
         this.animalService = animalService;
     }
 

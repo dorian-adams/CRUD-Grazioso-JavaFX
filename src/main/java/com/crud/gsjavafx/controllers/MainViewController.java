@@ -77,11 +77,11 @@ public class MainViewController implements Initializable {
     /** Opens new window to edit selected animal. */
     public void editAnimalWindow(RescueAnimal selectedAnimal) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/crud/gsjavafx/addAnimalView.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/crud/gsjavafx/animalView.fxml"));
             loader.setControllerFactory(injector::instance);
             Parent root = loader.load();
             if (selectedAnimal != null) {
-                AddAnimalController controller = loader.getController();
+                AnimalController controller = loader.getController();
                 controller.setSelectedAnimal(selectedAnimal);
                 controller.setFields();
             }
