@@ -2,25 +2,23 @@ package com.crud.gsjavafx.models;
 
 import javafx.beans.property.SimpleStringProperty;
 
-import java.io.IOException;
-import java.io.Serial;
-import java.io.Serializable;
+import java.sql.Date;
 import java.util.Objects;
 
 /**
  *
  */
-public class RescueAnimal implements Serializable {
-    @Serial private static final long serialVersionUID = 1L;
-    transient private SimpleStringProperty animalName;
-    transient private SimpleStringProperty animalSpecies;
-    transient private SimpleStringProperty location;
+public class RescueAnimal {
+    private final SimpleStringProperty animalName;
+    private final SimpleStringProperty animalSpecies;
+    private final SimpleStringProperty location;
     private String gender;
     private int age;
     private int weight;
-    private String acquisitionDate;
+    private Date acquisitionDate;
     private int trainingStatus;
     private boolean reserved;
+    private int id;
 
     /**
      * Default constructor.
@@ -36,13 +34,13 @@ public class RescueAnimal implements Serializable {
      * @param reserved reserve status.
      */
     public RescueAnimal(String name, String species, String gender, int age, int weight,
-                        String acquisitionDate, String location, int trainingStatus,
+                        Date acquisitionDate, String location, int trainingStatus,
                         boolean reserved) {
         // SimpleStringProperty.
         this.animalName = new SimpleStringProperty(name);
         this.animalSpecies = new SimpleStringProperty(species);
         this.location = new SimpleStringProperty(location);
-        // Standard String fields not used in TableView.
+        // Standard fields not used in TableView.
         this.gender = gender;
         this.age = age;
         this.weight = weight;
@@ -51,24 +49,11 @@ public class RescueAnimal implements Serializable {
         this.reserved = reserved;
     }
 
-    private void writeObject(java.io.ObjectOutputStream out) throws IOException {
-        out.defaultWriteObject();
-
-        out.writeObject(animalName.get());
-        out.writeObject(animalSpecies.get());
-        out.writeObject(location.get());
-    }
-
-    private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {
-        in.defaultReadObject();
-
-        String name = (String) in.readObject();
-        String species = (String) in.readObject();
-        String loc = (String) in.readObject();
-
-        animalName = new SimpleStringProperty(name);
-        animalSpecies = new SimpleStringProperty(species);
-        location = new SimpleStringProperty(loc);
+    public RescueAnimal(String name, String species, String gender, int age, int weight,
+                        Date acquisitionDate, String location, int trainingStatus,
+                        boolean reserved, int id) {
+        this(name, species, gender, age, weight, acquisitionDate, location, trainingStatus, reserved);
+        this.id = id;
     }
 
     @Override
@@ -100,6 +85,10 @@ public class RescueAnimal implements Serializable {
     }
 
     // Standard getters and setters.
+    public int getId() { return id;}
+
+    public void setId(int id) { this.id = id; }
+
     public String getName() {
         return animalName.get();
     }
@@ -140,11 +129,11 @@ public class RescueAnimal implements Serializable {
         this.weight = weight;
     }
 
-    public String getAcquisitionDate() {
+    public Date getAcquisitionDate() {
         return acquisitionDate;
     }
 
-    public void setAcquisitionDate(String acquisitionDate) {
+    public void setAcquisitionDate(Date acquisitionDate) {
         this.acquisitionDate = acquisitionDate;
     }
 

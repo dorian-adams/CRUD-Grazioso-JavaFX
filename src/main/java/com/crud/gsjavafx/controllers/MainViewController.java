@@ -1,7 +1,9 @@
 package com.crud.gsjavafx.controllers;
 
-import com.crud.gsjavafx.models.AnimalList;
+import com.crud.gsjavafx.models.AnimalService;
 import com.crud.gsjavafx.models.RescueAnimal;
+import dev.mccue.feather.DependencyInjector;
+import jakarta.inject.Inject;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -25,19 +27,27 @@ public class MainViewController implements Initializable {
     @FXML private TableColumn<RescueAnimal, String> colName;
     @FXML private TableColumn<RescueAnimal, String> colSpecies;
     @FXML private TableColumn<RescueAnimal, String> colLocation;
+    private final AnimalService animalService;
+    private FXMLLoader loader;
+    private final DependencyInjector injector;
 
-    /** Initialize TableView with the saved ArrayList, AnimalList.allAnimals. */
+    @Inject
+    public MainViewController(AnimalService animalService, DependencyInjector injector) {
+        this.animalService = animalService;
+        this.injector = injector;
+    }
+
+    /** Initialize TableView. */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
-            AnimalList.initializeList();
             colName.setCellValueFactory(data -> data.getValue().animalNameProperty());
             colSpecies.setCellValueFactory(data -> data.getValue().animalSpeciesProperty());
             colLocation.setCellValueFactory(data -> data.getValue().locationProperty());
             colName.setCellFactory(TextFieldTableCell.forTableColumn());
             colSpecies.setCellFactory(TextFieldTableCell.forTableColumn());
             colLocation.setCellFactory(TextFieldTableCell.forTableColumn());
-            tableView.setItems(AnimalList.allAnimals);
+            tableView.setItems(animalService.getAllAnimals());
         } catch(Exception e) {
             e.printStackTrace();
         }
@@ -67,10 +77,11 @@ public class MainViewController implements Initializable {
     /** Opens new window to edit selected animal. */
     public void editAnimalWindow(RescueAnimal selectedAnimal) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/crud/gsjavafx/addAnimalView.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/crud/gsjavafx/animalView.fxml"));
+            loader.setControllerFactory(injector::instance);
             Parent root = loader.load();
             if (selectedAnimal != null) {
-                AddAnimalController controller = loader.getController();
+                AnimalController controller = loader.getController();
                 controller.setSelectedAnimal(selectedAnimal);
                 controller.setFields();
             }
@@ -98,8 +109,7 @@ public class MainViewController implements Initializable {
         Optional<ButtonType> result = alert.showAndWait();
 
         if (result.get() == ButtonType.OK) {
-            AnimalList.allAnimals.remove(selectedAnimal);
-            AnimalList.saveAnimalList();
+            animalService.doDelete(selectedAnimal);
         } else {
             alert.close();
         }

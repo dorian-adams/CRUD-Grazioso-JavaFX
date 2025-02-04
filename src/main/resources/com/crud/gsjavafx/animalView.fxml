@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 <?import java.lang.String?>
-<AnchorPane prefHeight="479.0" prefWidth="312.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.crud.gsjavafx.controllers.AddAnimalController">
+<AnchorPane prefHeight="479.0" prefWidth="312.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.crud.gsjavafx.controllers.AnimalController">
    <children>
       <GridPane fx:id="grid" prefHeight="479.0" prefWidth="312.0">
         <columnConstraints>

@@ -1,7 +1,8 @@
 package com.crud.gsjavafx.controllers;
 
-import com.crud.gsjavafx.models.AnimalList;
+import com.crud.gsjavafx.models.AnimalService;
 import com.crud.gsjavafx.models.RescueAnimal;
+import jakarta.inject.Inject;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -10,12 +11,12 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Window;
 
 import java.net.URL;
-import java.time.LocalDate;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 /** Create and add animal to AnimalList.allAnimals then serialize. */
-public class AddAnimalController implements Initializable {
+public class AnimalController implements Initializable {
     @FXML private GridPane grid;
     @FXML Button saveButton;
     @FXML TextField animalName;
@@ -29,6 +30,12 @@ public class AddAnimalController implements Initializable {
     @FXML CheckBox reserved;
     private RescueAnimal selectedAnimal;
     private final ArrayList<InputValidationController<Node>> nodes = new ArrayList<>();
+    private final AnimalService animalService;
+
+    @Inject
+    public AnimalController(AnimalService animalService) {
+        this.animalService = animalService;
+    }
 
     /** Allows MainViewController to set the instance that's being edited. */
     public void setSelectedAnimal(RescueAnimal selectedAnimal) {
@@ -63,7 +70,7 @@ public class AddAnimalController implements Initializable {
                 maxAge));
         weight.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(selectedAnimal.getWeight(),
                 maxWeight));
-        acquisitionDate.setValue(LocalDate.parse(selectedAnimal.getAcquisitionDate()));
+        acquisitionDate.setValue(selectedAnimal.getAcquisitionDate().toLocalDate());
         animalLocation.setText(selectedAnimal.getLocation());
         trainingStatus.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(
                 selectedAnimal.getTrainingStatus(), maxTrainingLevel));
@@ -88,26 +95,34 @@ public class AddAnimalController implements Initializable {
     public void saveAnimal() {
         // Update existing
         if (selectedAnimal != null) {
-            selectedAnimal.setName(animalName.getText());
-            selectedAnimal.setAnimalType(animalType.getText());
-            selectedAnimal.setGender(gender.getValue());
-            selectedAnimal.setAge(Integer.parseInt(age.getValue().toString()));
-            selectedAnimal.setWeight(Integer.parseInt(weight.getValue().toString()));
-            selectedAnimal.setAcquisitionDate(acquisitionDate.getValue().toString());
-            selectedAnimal.setLocation(animalLocation.getText());
-            selectedAnimal.setTrainingStatus(Integer.parseInt(trainingStatus.getValue().toString()));
-            selectedAnimal.setReserved(reserved.isSelected());
+            animalService.doUpdate(
+                    selectedAnimal,
+                    animalName.getText(),
+                    animalType.getText(),
+                    gender.getValue(),
+                    age.getValue(),
+                    weight.getValue(),
+                    Date.valueOf(acquisitionDate.getValue()),
+                    animalLocation.getText(),
+                    trainingStatus.getValue(),
+                    reserved.isSelected()
+            );
         } else {
             // Create new
-            RescueAnimal newAnimal = new RescueAnimal(animalName.getText(), animalType.getText(),
-                    gender.getValue(), Integer.parseInt(age.getValue().toString()),
-                    Integer.parseInt(weight.getValue().toString()), acquisitionDate.getValue().toString(),
-                    animalLocation.getText(), Integer.parseInt(trainingStatus.getValue().toString()),
-                    reserved.isSelected());
+            RescueAnimal newAnimal = new RescueAnimal(
+                    animalName.getText(),
+                    animalType.getText(),
+                    gender.getValue(),
+                    age.getValue(),
+                    weight.getValue(),
+                    Date.valueOf(acquisitionDate.getValue()),
+                    animalLocation.getText(),
+                    trainingStatus.getValue(),
+                    reserved.isSelected()
+            );
+            animalService.doInsert(newAnimal);
 
-            AnimalList.setAllAnimals(newAnimal);
         }
-        AnimalList.saveAnimalList();
         closeWindow();
     }
 
@@ -115,4 +130,5 @@ public class AddAnimalController implements Initializable {
         Window window = animalName.getScene().getWindow();
         window.hide();
     }
+
 }
