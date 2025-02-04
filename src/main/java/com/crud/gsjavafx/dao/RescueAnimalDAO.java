@@ -1,13 +1,12 @@
 package com.crud.gsjavafx.dao;
 
 import com.crud.gsjavafx.models.RescueAnimal;
-
-import java.sql.*;
-
 import com.zaxxer.hikari.HikariDataSource;
 import jakarta.inject.Inject;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+
+import java.sql.*;
 
 @SuppressWarnings("SpellCheckingInspection")
 public class RescueAnimalDAO {

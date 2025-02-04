@@ -1,7 +1,7 @@
 package com.crud.gsjavafx.config;
 
-import com.crud.gsjavafx.models.AnimalService;
 import com.crud.gsjavafx.dao.RescueAnimalDAO;
+import com.crud.gsjavafx.models.AnimalService;
 import com.zaxxer.hikari.HikariDataSource;
 import dev.mccue.feather.Provides;
 import jakarta.inject.Singleton;
