@@ -7,36 +7,30 @@ This CRUD application is designed to intake and track an animal's training statu
 * Java
 * JavaFX
 * FXML
+* JDBC
+* MySQL
+* Feather Dependency Injection
 
 ## Features
-* Serialization / deserialization
 * Sortable table view
 * Input validation
-* User interface
-* MVC architecture
-* CRUD
-
-## Purpose
-This project began as a class assignment that I expanded upon to try my hands at something more complex. The original assignment involved creating a Java application that took input from the console and managed animals for a mock company called Grazioso. To make this into a full-featured CRUD app, I added a UI via JavaFX, serialization/deserialization to save data across uses, and more. My goal was to create a more professional and complete program for better practice.
-
-## What I Learned
-In working on this project, I honed three valuable skills: research, implementing professional design patterns, and even Android development. At the onset of this project, I had no previous exposure to JavaFX. To increase my familiarity, I utilized various tools provided by the IDE and consulted official documentation when more in-depth research was required. As such, I'm now more confident in adapting to new libraries quickly. The design architecture I used, Model-View-Controller, can be applied to various languages and applications. Implementing MVC in this project was a great lesson in the benefits of creating highly focused and organized components. The result is a very easy codebase to read, expand upon, and manage. Surprisingly, I've also found that many of the practices and techniques used in JavaFX are highly applicable to Android development, which I look forward to exploring soon.
+* GUI
 
 ## Code Snippets
 Initialize the table:
 
 ```Java
+    /** Initialize TableView. */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
-            AnimalList.initializeList();
             colName.setCellValueFactory(data -> data.getValue().animalNameProperty());
             colSpecies.setCellValueFactory(data -> data.getValue().animalSpeciesProperty());
             colLocation.setCellValueFactory(data -> data.getValue().locationProperty());
             colName.setCellFactory(TextFieldTableCell.forTableColumn());
             colSpecies.setCellFactory(TextFieldTableCell.forTableColumn());
             colLocation.setCellFactory(TextFieldTableCell.forTableColumn());
-            tableView.setItems(AnimalList.allAnimals);
+            tableView.setItems(animalService.getAllAnimals());
         } catch(Exception e) {
             e.printStackTrace();
         }
@@ -50,42 +44,55 @@ Initialize the table:
     }
 ```
 
-Date validation method:
+DAO snippet:
 
 ```Java
-    private void validDate (DatePicker date) {
-        LocalDate today = LocalDate.now();
-        date.setValue(today);
-        date.setOnAction(e -> {
-           if (today.isBefore(date.getValue())) {
-               raiseWarning(date);
-               date.setValue(today);
-           } else {
-               suppressError();
-           }
-       });
-    }
-```
+    public int insert(RescueAnimal animal) {
+        String sql = "INSERT INTO rescue_animal (" +
+                "name, " +
+                "species, " +
+                "gender, " +
+                "age, " +
+                "weight, " +
+                "acquisition_date, " +
+                "location, " +
+                "training_status, " +
+                "reserved) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
-Serialize:
+        try (Connection conn = ds.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
+            stmt.setString(1, animal.getName());
+            stmt.setString(2, animal.getAnimalType());
+            stmt.setString(3, animal.getGender());
+            stmt.setInt(4, animal.getAge());
+            stmt.setInt(5, animal.getWeight());
+            stmt.setDate(6, animal.getAcquisitionDate());
+            stmt.setString(7, animal.getLocation());
+            stmt.setInt(8, animal.getTrainingStatus());
+            stmt.setBoolean(9, animal.getReserved());
 
-```Java
-    /** Serializer is static-only, and not to be instantiated. */
-    private Serializer() {}
-
-    public static void serialize(ObservableList<RescueAnimal> observableListAnimals) throws IOException {
-        try(var serializer = new ObjectOutputStream(new FileOutputStream(PATH, false))) {
-            ArrayList<RescueAnimal> convertedList = new ArrayList<>(observableListAnimals);
-            serializer.writeObject(convertedList);
+            int rowsAffected = stmt.executeUpdate();
+            if (rowsAffected > 0) {
+                ResultSet generatedKeys = stmt.getGeneratedKeys();
+                if (generatedKeys.next()) {
+                    return generatedKeys.getInt(1);
+                } else {
+                    return 0;
+                }
+            } else {
+                return 0;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return 0;
         }
     }
 ```
 
 ## Relevant Docs and Resources
-* [Official Walkthroughs](https://docs.oracle.com/javase/8/javafx/get-started-tutorial/get_start_apps.htm#JFXST804)
 * [JavaFX API](https://docs.oracle.com/javase/8/javafx/api/toc.htm)
-* [SimpleStringProperty](https://docs.oracle.com/javase/8/javafx/api/javafx/beans/property/SimpleStringProperty.html)
 * [TableView](https://docs.oracle.com/javase/8/javafx/api/javafx/scene/control/TableView.html)
 * [TableColumn](https://docs.oracle.com/javase/8/javafx/api/javafx/scene/control/TableColumn.html)
-* [TextFieldTableCell](https://docs.oracle.com/javase/8/javafx/api/javafx/scene/control/cell/TextFieldTableCell.html)
-* [MVC Article by Eden-Rump](https://edencoding.com/mvc-in-javafx/#:~:text=MVC%20stands%20for%20Model%2DView,logic%20from%20the%20user%20interface.)
+* [DAO](https://www.oracle.com/java/technologies/data-access-object.html)
+* [JDBC](https://docs.oracle.com/javase/tutorial/jdbc/basics/processingsqlstatements.html)
