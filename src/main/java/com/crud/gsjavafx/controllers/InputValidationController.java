@@ -11,12 +11,12 @@ public class InputValidationController<T extends Node> {
 
     /** TextField constructor. */
     public InputValidationController (TextField field) {
-       validString(field);
-       toolTip.setText("Input is required and may not contain digits.");
-       field.setTooltip(toolTip);
-   }
+        validString(field);
+        toolTip.setText("Input is required and may not contain digits.");
+        field.setTooltip(toolTip);
+    }
 
-   /** DatePicker Constructor. */
+    /** DatePicker Constructor. */
     public InputValidationController (DatePicker date) {
         validDate(date);
         toolTip.setText("Cannot choose a future date.");
@@ -31,62 +31,66 @@ public class InputValidationController<T extends Node> {
     }
 
     private void validString(TextField field) {
-       if (field.getText() == null) {
-           error = true;
-       }
+        final int MAX_STRING_LEN = 20;
 
-       field.setTextFormatter(new TextFormatter<>(c -> {
-           if (c.isContentChange()) {
-               if (c.getControlNewText().length() == 0) {
-                   error = true;
-                   raiseWarning(field);
-                   return c;
-               }
-               if (c.getControlNewText().isEmpty()) {
-                   return c;
-               }
-               if (c.getControlNewText().length() > 20) {
-                   return null;
-               }
-               if (!c.getControlNewText().matches("^[A-Za-z]+$")) {
-                   raiseWarning(field);
-                   return null;
-               } else {
-                   suppressError();
-                   return c;
-               }
-           }
-           return c;
-       }));
+        if (field.getText() == null) {
+            error = true;
+        }
+
+        field.setTextFormatter(new TextFormatter<>(c -> {
+            if (c.isContentChange()) {
+                if (c.getControlNewText().isEmpty()) {
+                    error = true;
+                    raiseWarning(field);
+                    return c;
+                }
+                if (c.getControlNewText().isEmpty()) {
+                    return c;
+                }
+                if (c.getControlNewText().length() > MAX_STRING_LEN) {
+                    return null;
+                }
+                if (!c.getControlNewText().matches("^[A-Za-z]+$")) {
+                    raiseWarning(field);
+                    return null;
+                } else {
+                    suppressError();
+                    return c;
+                }
+            }
+            return c;
+        }));
     }
 
-    private void validDate (DatePicker date) {
+    private void validDate(DatePicker date) {
         LocalDate today = LocalDate.now();
         date.setValue(today);
         date.setOnAction(e -> {
-           if (today.isBefore(date.getValue())) {
-               raiseWarning(date);
-               date.setValue(today);
-           } else {
-               suppressError();
-           }
-       });
+            if (today.isBefore(date.getValue())) {
+                raiseWarning(date);
+                date.setValue(today);
+            } else {
+                suppressError();
+            }
+        });
     }
 
     private void validNumber(Spinner<Integer> numField) {
+        final String DEFAULT_VALUE = "0";
+
         numField.getEditor().textProperty().addListener((observable, oldV, newV) -> {
-            if (!newV.matches("\\d*") || newV.length() == 0) {
+            if (!newV.matches("\\d*") || newV.isEmpty()) {
                 raiseWarning(numField);
-                numField.getEditor().setText("0");
+                numField.getEditor().setText(DEFAULT_VALUE);
             }
         });
     }
 
     private void raiseWarning(Node node) {
-       double x = node.getScene().getWindow().getX() + node.getLayoutX();
-       double y = node.getScene().getWindow().getY() + node.getLayoutY();
-       toolTip.setAutoHide(true);
-       toolTip.show(node, x, y);
+        double x = node.getScene().getWindow().getX() + node.getLayoutX();
+        double y = node.getScene().getWindow().getY() + node.getLayoutY();
+        toolTip.setAutoHide(true);
+        toolTip.show(node, x, y);
     }
 
     private void suppressError() {
