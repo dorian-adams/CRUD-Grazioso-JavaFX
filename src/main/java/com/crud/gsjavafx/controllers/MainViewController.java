@@ -52,9 +52,9 @@ public class MainViewController implements Initializable {
             e.printStackTrace();
         }
 
-        // Set double-click event.
+        final int DOUBLE_CLICK = 2;
         tableView.setOnMouseClicked(click -> {
-            if (click.getClickCount() == 2) {
+            if (click.getClickCount() == DOUBLE_CLICK) {
                 editAnimalWindow(getSelection());
             }
         });

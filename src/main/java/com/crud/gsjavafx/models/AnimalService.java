@@ -41,8 +41,10 @@ public final class AnimalService {
     }
 
     public void doInsert(RescueAnimal animal) {
+        final int INSERT_FAILURE = 0;
+
         int newAnimalId = animalDAO.insert(animal);
-        if (newAnimalId != 0) {
+        if (newAnimalId != INSERT_FAILURE) {
             animal.setId(newAnimalId);
             allAnimals.add(animal);
         }
