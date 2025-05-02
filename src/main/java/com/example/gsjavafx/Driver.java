@@ -1,6 +1,6 @@
 package com.example.gsjavafx;
 
-import com.example.gsjavafx.config.DIModule;
+import com.example.gsjavafx.di.AppModule;
 import dev.mccue.feather.DependencyInjector;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -15,7 +15,7 @@ public class Driver extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("mainView.fxml"));
-        DIModule module = new DIModule(loader);
+        AppModule module = new AppModule(loader);
         DependencyInjector injector = DependencyInjector.builder()
                 .module(module)
                 .build();
