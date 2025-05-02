@@ -1,4 +1,4 @@
-package com.crud.gsjavafx.models;
+package com.example.gsjavafx.models;
 
 import javafx.beans.property.SimpleStringProperty;
 

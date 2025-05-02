@@ -1,7 +1,7 @@
-package com.crud.gsjavafx.models;
+package com.example.gsjavafx.models;
 
-import com.crud.gsjavafx.controllers.MainViewController;
-import com.crud.gsjavafx.dao.RescueAnimalDAO;
+import com.example.gsjavafx.controllers.MainViewController;
+import com.example.gsjavafx.dao.RescueAnimalDAO;
 import jakarta.inject.Inject;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

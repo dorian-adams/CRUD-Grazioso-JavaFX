@@ -1,8 +1,8 @@
-package com.crud.gsjavafx.config;
+package com.example.gsjavafx.config;
 
-import com.crud.gsjavafx.dao.RescueAnimalDAO;
-import com.crud.gsjavafx.models.AnimalService;
-import com.crud.gsjavafx.models.RescueAnimal;
+import com.example.gsjavafx.dao.RescueAnimalDAO;
+import com.example.gsjavafx.models.AnimalService;
+import com.example.gsjavafx.models.RescueAnimal;
 import com.zaxxer.hikari.HikariDataSource;
 import dev.mccue.feather.Provides;
 import jakarta.inject.Singleton;

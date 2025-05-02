@@ -1,7 +1,7 @@
-package com.crud.gsjavafx.controllers;
+package com.example.gsjavafx.controllers;
 
-import com.crud.gsjavafx.models.AnimalService;
-import com.crud.gsjavafx.models.RescueAnimal;
+import com.example.gsjavafx.models.AnimalService;
+import com.example.gsjavafx.models.RescueAnimal;
 import jakarta.inject.Inject;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;

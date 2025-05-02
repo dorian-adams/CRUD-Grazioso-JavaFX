@@ -1,4 +1,4 @@
-package com.crud.gsjavafx.controllers;
+package com.example.gsjavafx.controllers;
 
 import javafx.scene.Node;
 import javafx.scene.control.*;
