@@ -18,7 +18,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Optional;
 import java.util.ResourceBundle;
 
 /**
@@ -134,12 +133,8 @@ public class MainViewController implements Initializable {
         alert.setTitle("Confirm deletion:");
         alert.setHeaderText("Warning: Clicking 'OK' will remove " + selectedAnimal.getName() + " from record.");
         alert.setContentText("Click 'OK' to continue or 'Cancel' to cancel this request.");
-        Optional<ButtonType> result = alert.showAndWait();
-
-        if (result.get() == ButtonType.OK) {
-            animalService.doDelete(selectedAnimal);
-        } else {
-            alert.close();
-        }
+        alert.showAndWait()
+                .filter(response -> response == ButtonType.OK)
+                .ifPresent(response -> animalService.doDelete(selectedAnimal));
     }
 }
