@@ -15,7 +15,9 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-/** Create and add animal to AnimalList.allAnimals then serialize. */
+/**
+ * Provides form functionality for adding or editing {@link RescueAnimal} instances.
+ */
 public class AnimalController implements Initializable {
     @FXML private GridPane grid;
     @FXML Button saveButton;
@@ -29,19 +31,39 @@ public class AnimalController implements Initializable {
     @FXML Spinner<Integer> trainingStatus;
     @FXML CheckBox reserved;
     private RescueAnimal selectedAnimal;
-    private final ArrayList<InputValidationController<Node>> nodes = new ArrayList<>();
     private final AnimalService animalService;
+    /**
+     * Stores input validation status for all form fields (Spinners, TextFields, DatePicker).
+     */
+    private final ArrayList<InputValidationController<Node>> nodes = new ArrayList<>();
 
+    /**
+     * Constructs the controller with the injected {@link AnimalService} for CRUD management and
+     * UI synchronization.
+     *
+     * @param animalService the service layer for managing rescue animals.
+     */
     @Inject
     public AnimalController(AnimalService animalService) {
         this.animalService = animalService;
     }
 
-    /** Allows MainViewController to set the instance that's being edited. */
+    /**
+     * Sets the animal instance to be edited.
+     *
+     * @param selectedAnimal the animal selected for editing.
+     */
     public void setSelectedAnimal(RescueAnimal selectedAnimal) {
         this.selectedAnimal = selectedAnimal;
     }
 
+    /**
+     * Sets up input validation controllers for all {@link Spinner}, {@link TextField}, and {@link DatePicker}
+     * nodes within the {@code grid}.
+     *
+     * @param url the location used to resolve relative paths for the root object.
+     * @param resourceBundle the resources used to localize the root object.
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         for (Node node : grid.getChildren()) {
@@ -58,7 +80,9 @@ public class AnimalController implements Initializable {
         }
     }
 
-    /** Populates fields with the passed instance. */
+    /**
+     * Populates the form fields with the values of the {@code selectedAnimal}.
+     */
     public void setFields() {
         final int maxAge = 100;
         final int maxWeight = 999;
@@ -77,6 +101,10 @@ public class AnimalController implements Initializable {
         reserved.setSelected(selectedAnimal.getReserved());
     }
 
+    /**
+     * Validates all form fields before attempting to save.
+     * If validation passes, the {@code saveAnimal} method is called to persist the data.
+     */
     public void save() {
         for (InputValidationController<Node> node : nodes) {
             if (node.getError()) {
@@ -91,9 +119,12 @@ public class AnimalController implements Initializable {
         saveAnimal();
     }
 
-    /** Handles action for Save button */
+    /**
+     * Saves the {@code RescueAnimal} data by either updating an existing record or inserting a new one.
+     * If {@code selectedAnimal} is not {@code null}, updates the existing animal using {@code animalService.doUpdate}.
+     * Otherwise, creates a new {@code RescueAnimal} instance and inserts it using {@code animalService.doInsert}.
+     */
     public void saveAnimal() {
-        // Update existing
         if (selectedAnimal != null) {
             animalService.doUpdate(
                     selectedAnimal,
@@ -108,7 +139,6 @@ public class AnimalController implements Initializable {
                     reserved.isSelected()
             );
         } else {
-            // Create new
             RescueAnimal newAnimal = new RescueAnimal(
                     animalName.getText(),
                     animalType.getText(),
@@ -126,9 +156,11 @@ public class AnimalController implements Initializable {
         closeWindow();
     }
 
+    /**
+     * Closes the current window containing the form.
+     */
     public void closeWindow() {
         Window window = animalName.getScene().getWindow();
         window.hide();
     }
-
 }

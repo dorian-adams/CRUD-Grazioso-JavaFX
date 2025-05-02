@@ -6,7 +6,8 @@ import java.sql.Date;
 import java.util.Objects;
 
 /**
- *
+ * Represents a rescue animal with identifying details, training status, and reservation state.
+ * This class supports JavaFX {@code TableView} through use of {@code SimpleStringProperty}.
  */
 public class RescueAnimal {
     private final SimpleStringProperty animalName;
@@ -21,26 +22,26 @@ public class RescueAnimal {
     private int id;
 
     /**
-     * Default constructor.
+     * Constructs a {@code RescueAnimal} with the provided attribute values.
      *
      * @param name name of the animal.
      * @param species species of the animal.
      * @param gender gender of the animal.
      * @param age animal's age.
      * @param weight animal's weight in pounds.
-     * @param acquisitionDate date animal was acquired as MM/DD/YY.
+     * @param acquisitionDate date animal was acquired.
      * @param location city where the animal is located.
-     * @param trainingStatus level of training completed.
-     * @param reserved reserve status.
+     * @param trainingStatus an integer from 0 to 5 representing the level of training completed.
+     * @param reserved whether the animal is currently reserved.
      */
     public RescueAnimal(String name, String species, String gender, int age, int weight,
                         Date acquisitionDate, String location, int trainingStatus,
                         boolean reserved) {
-        // SimpleStringProperty.
+        // SimpleStringProperty is required for TableView bindings
         this.animalName = new SimpleStringProperty(name);
         this.animalSpecies = new SimpleStringProperty(species);
         this.location = new SimpleStringProperty(location);
-        // Standard fields not used in TableView.
+        // Standard fields not bound to the TableView
         this.gender = gender;
         this.age = age;
         this.weight = weight;
@@ -49,6 +50,20 @@ public class RescueAnimal {
         this.reserved = reserved;
     }
 
+    /**
+     * Constructs a {@code RescueAnimal} with the provided attributes. Used when constructing from the database.
+     *
+     * @param name name of the animal.
+     * @param species species of the animal.
+     * @param gender gender of the animal.
+     * @param age animal's age.
+     * @param weight animal's weight in pounds.
+     * @param acquisitionDate date animal was acquired.
+     * @param location city where the animal is located.
+     * @param trainingStatus an integer from 0 to 5 representing the level of training completed.
+     * @param reserved whether the animal is currently reserved.
+     * @param id the unique identifier assigned to the animal.
+     */
     public RescueAnimal(String name, String species, String gender, int age, int weight,
                         Date acquisitionDate, String location, int trainingStatus,
                         boolean reserved, int id) {
@@ -56,11 +71,22 @@ public class RescueAnimal {
         this.id = id;
     }
 
+    /**
+     * Generates a hash code based on the animal's name, species, and location.
+     *
+     * @return the hash code for {@code RescueAnimal}
+     */
     @Override
     public int hashCode() {
         return Objects.hash(animalName, animalSpecies, location);
     }
 
+    /**
+     * Two {@code RescueAnimal} objects are considered equal if their name, species, and location are all equal.
+     *
+     * @param obj the object to compare with this instance.
+     * @return {@code true} if the specified object is equal to this one; {@code false} otherwise.
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
@@ -71,7 +97,6 @@ public class RescueAnimal {
                 location.get().equals(animal.location.get());
     }
 
-    // Retrieve SimpleStringProperty:
     public SimpleStringProperty animalNameProperty() {
         return animalName;
     }
@@ -84,7 +109,6 @@ public class RescueAnimal {
         return location;
     }
 
-    // Standard getters and setters.
     public int getId() { return id;}
 
     public void setId(int id) { this.id = id; }

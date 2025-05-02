@@ -21,23 +21,34 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-/** Controller for MainView. Handles ListView display as well as initiating actions on listView. */
+/**
+ * Controller class for the application's primary UI.
+ * Manages the display and interaction logic for the {@link TableView} containing {@link RescueAnimal} entries.
+ */
 public class MainViewController implements Initializable {
     @FXML private TableView<RescueAnimal> tableView;
     @FXML private TableColumn<RescueAnimal, String> colName;
     @FXML private TableColumn<RescueAnimal, String> colSpecies;
     @FXML private TableColumn<RescueAnimal, String> colLocation;
     private final AnimalService animalService;
-    private FXMLLoader loader;
     private final DependencyInjector injector;
 
+    /**
+     * Constructs the controller with injected dependencies.
+     *
+     * @param animalService the service layer for managing rescue animal data.
+     * @param injector the dependency injector to pass the same instance to other controllers.
+     */
     @Inject
     public MainViewController(AnimalService animalService, DependencyInjector injector) {
         this.animalService = animalService;
         this.injector = injector;
     }
 
-    /** Initialize TableView. */
+    /**
+     * Initializes the {@link TableView} by setting up column cell factories and
+     * populating the table with data via {@link AnimalService}.
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
@@ -60,21 +71,36 @@ public class MainViewController implements Initializable {
         });
     }
 
+    /**
+     * Returns the currently selected {@link RescueAnimal} from the table view.
+     *
+     * @return the selected {@link RescueAnimal}, or {@code null} if no selection is made.
+     */
     public RescueAnimal getSelection() {
         return tableView.getSelectionModel().getSelectedItem();
     }
 
-    /** Handles action for the 'Add' Button. */
+    /**
+     * Handles action for the Add Button.
+     * Opens the animal editing window to create a new entry (no pre-selected animal).
+     */
     public void addNewButton() {
         editAnimalWindow(null);
     }
 
-    /** Handles action for the 'Edit' Button. */
+    /**
+     * Handles action for the Edit Button.
+     * Opens the animal editing window to modify the selected entry.
+     */
     public void editButton() {
         editAnimalWindow(getSelection());
     }
 
-    /** Opens new window to edit selected animal. */
+    /**
+     * Opens the animal editing window.
+     *
+     * @param selectedAnimal the {@link RescueAnimal} to edit, or {@code null} to create a new entry.
+     */
     public void editAnimalWindow(RescueAnimal selectedAnimal) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/crud/gsjavafx/animalView.fxml"));
@@ -98,7 +124,9 @@ public class MainViewController implements Initializable {
         }
     }
 
-    /** Deletes selected animal after confirmation. */
+    /**
+     * Prompts the user for confirmation and deletes the selected animal if confirmed.
+     */
     public void deleteSelection() {
         RescueAnimal selectedAnimal = getSelection();
 
