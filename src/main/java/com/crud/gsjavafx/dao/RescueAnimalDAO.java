@@ -8,11 +8,22 @@ import javafx.collections.ObservableList;
 
 import java.sql.*;
 
+/**
+ * Data Access Object (DAO) for managing {@link RescueAnimal} entities in the database.
+ * Handles all CRUD (Create, Read, Update, Delete) operations for the {@code rescue_animal} table.
+ */
 @SuppressWarnings("SpellCheckingInspection")
 public class RescueAnimalDAO {
     private final HikariDataSource ds;
     private static final String TABLE = "rescue_animal";
 
+    /**
+     * Constructs the DAO with the injected {@link HikariDataSource} for database access.
+     * Checks for the existence of the {@code rescue_animal} table and creates it if necessary.
+     *
+     * @param ds the {@link HikariDataSource} instance used to establish database connections.
+     * @throws IllegalArgumentException if {@code ds} is null.
+     */
     @Inject
     public RescueAnimalDAO(HikariDataSource ds) {
         if (ds == null) {
@@ -25,6 +36,11 @@ public class RescueAnimalDAO {
         }
     }
 
+    /**
+     * Retrieves all {@link RescueAnimal} records from the database.
+     *
+     * @return an {@link ObservableList} containing all animals from the {@code rescue_animal} table.
+     */
     public ObservableList<RescueAnimal> getAll() {
         ObservableList<RescueAnimal> animals = FXCollections.observableArrayList();
 
@@ -53,6 +69,15 @@ public class RescueAnimalDAO {
         return animals;
     }
 
+    /**
+     * Inserts a new {@link RescueAnimal} into the database.
+     * Executes an {@code INSERT} statement on the {@code rescue_animal} table using the provided
+     * animal's attributes. If the insertion is successful, the method attempts to retrieve and return
+     * the generated primary key (ID) of the new record.
+     *
+     * @param animal the {@link RescueAnimal} instance to insert into the database.
+     * @return the generated ID of the inserted animal, or {@code 0} if the insertion failed.
+     */
     public int insert(RescueAnimal animal) {
         String sql = "INSERT INTO rescue_animal (" +
                 "name, " +
@@ -95,6 +120,13 @@ public class RescueAnimalDAO {
         }
     }
 
+    /**
+     * Updates an existing {@link RescueAnimal} record in the database.
+     * Executes an {@code UPDATE} statement on the {@code rescue_animal} table using the fields of the
+     * provided {@code animal} object.
+     *
+     * @param animal the {@link RescueAnimal} instance containing updated values to persist.
+     */
     public void update(RescueAnimal animal) {
         String sql = "UPDATE rescue_animal SET " +
                 "name=?, " +
@@ -127,6 +159,12 @@ public class RescueAnimalDAO {
         }
     }
 
+    /**
+     * Deletes the specified {@link RescueAnimal} from the database.
+     * Executes a {@code DELETE} statement on the {@code rescue_animal} table using the animal's {@code id}.
+     *
+     * @param animal the {@link RescueAnimal} instance to delete.
+     */
     public void delete (RescueAnimal animal) {
         String sql = "DELETE from rescue_animal WHERE id=?;";
 
@@ -139,6 +177,12 @@ public class RescueAnimalDAO {
         }
     }
 
+    /**
+     * Checks whether the {@code rescue_animal} table exists in the database.
+     * Used to determine whether the expected table must be created.
+     *
+     * @return {@code true} if the table exists, {@code false} otherwise or if an error occurs.
+     */
     private boolean tableExists() {
         try (Connection conn = ds.getConnection();
              ResultSet rs = conn.getMetaData().getTables(null, null, TABLE, new String[]{"TABLE"});) {
@@ -149,6 +193,10 @@ public class RescueAnimalDAO {
         }
     }
 
+    /**
+     * Creates the {@code rescue_animal} table in the database.
+     * Called automatically by the constructor if the {@code rescue_animal} table does not exist.
+     */
     private void createTable() {
         String createTableSQL = "CREATE TABLE rescue_animal (" +
                 "id SERIAL PRIMARY KEY, " +
