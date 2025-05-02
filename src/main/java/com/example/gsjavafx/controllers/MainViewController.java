@@ -135,6 +135,6 @@ public class MainViewController implements Initializable {
         alert.setContentText("Click 'OK' to continue or 'Cancel' to cancel this request.");
         alert.showAndWait()
                 .filter(response -> response == ButtonType.OK)
-                .ifPresent(response -> animalService.doDelete(selectedAnimal));
+                .ifPresent(response -> animalService.deleteAnimal(selectedAnimal));
     }
 }

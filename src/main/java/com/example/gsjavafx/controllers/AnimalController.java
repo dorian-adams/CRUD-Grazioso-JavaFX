@@ -126,7 +126,7 @@ public class AnimalController implements Initializable {
      */
     public void saveAnimal() {
         if (selectedAnimal != null) {
-            animalService.doUpdate(
+            animalService.updateAnimal(
                     selectedAnimal,
                     animalName.getText(),
                     animalType.getText(),
@@ -150,7 +150,7 @@ public class AnimalController implements Initializable {
                     trainingStatus.getValue(),
                     reserved.isSelected()
             );
-            animalService.doInsert(newAnimal);
+            animalService.addAnimal(newAnimal);
 
         }
         closeWindow();

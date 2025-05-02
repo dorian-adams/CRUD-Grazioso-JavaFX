@@ -57,7 +57,7 @@ public final class AnimalService {
      *
      * @param animal the {@link RescueAnimal} object to be deleted (must not be null).
      */
-    public void doDelete(RescueAnimal animal) {
+    public void deleteAnimal(RescueAnimal animal) {
         animalDAO.delete(animal);
         allAnimals.remove(animal);
     }
@@ -68,7 +68,7 @@ public final class AnimalService {
      *
      * @param animal the {@link RescueAnimal} object to be inserted
      */
-    public void doInsert(RescueAnimal animal) {
+    public void addAnimal(RescueAnimal animal) {
         final int INSERT_FAILURE = 0;  // DAO insert returns 0 on failure
 
         int newAnimalId = animalDAO.insert(animal);
@@ -93,9 +93,9 @@ public final class AnimalService {
      * @param trainingStatus an integer from 0 to 5 representing the level of training completed.
      * @param reserved whether the animal is currently reserved.
      */
-    public void doUpdate(RescueAnimal animal, String name, String species, String gender, int age, int weight,
-                                Date acquisitionDate, String location, int trainingStatus,
-                                boolean reserved) {
+    public void updateAnimal(RescueAnimal animal, String name, String species, String gender, int age, int weight,
+                             Date acquisitionDate, String location, int trainingStatus,
+                             boolean reserved) {
         animal.setName(name);
         animal.setAnimalType(species);
         animal.setGender(gender);
