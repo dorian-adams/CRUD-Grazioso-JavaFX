@@ -1,5 +1,6 @@
-package com.example.gsjavafx.config;
+package com.example.gsjavafx.di;
 
+import com.example.gsjavafx.config.DataSourceConfig;
 import com.example.gsjavafx.dao.RescueAnimalDAO;
 import com.example.gsjavafx.models.AnimalService;
 import com.example.gsjavafx.models.RescueAnimal;
@@ -17,10 +18,10 @@ import javafx.fxml.FXMLLoader;
  * Dependency injection via Feather enables a more maintainable and testable way of supplying
  * dependencies to these controllers.
  */
-public class DIModule {
+public class AppModule {
     private final FXMLLoader loader;
 
-    public DIModule(FXMLLoader loader) {
+    public AppModule(FXMLLoader loader) {
         this.loader = loader;
     }
 

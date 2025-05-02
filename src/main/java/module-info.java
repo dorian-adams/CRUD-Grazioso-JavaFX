@@ -22,4 +22,6 @@ module com.example.gsjavafx {
     opens com.example.gsjavafx.config to javafx.fxml;
     exports com.example.gsjavafx.dao;
     opens com.example.gsjavafx.dao to javafx.fxml;
+    exports com.example.gsjavafx.di;
+    opens com.example.gsjavafx.di to javafx.fxml;
 }
