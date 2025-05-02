@@ -1,6 +1,6 @@
-package com.crud.gsjavafx;
+package com.example.gsjavafx;
 
-import com.crud.gsjavafx.models.RescueAnimal;
+import com.example.gsjavafx.models.RescueAnimal;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;

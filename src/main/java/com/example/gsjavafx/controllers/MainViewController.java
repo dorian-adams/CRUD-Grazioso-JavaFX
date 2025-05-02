@@ -1,7 +1,7 @@
-package com.crud.gsjavafx.controllers;
+package com.example.gsjavafx.controllers;
 
-import com.crud.gsjavafx.models.AnimalService;
-import com.crud.gsjavafx.models.RescueAnimal;
+import com.example.gsjavafx.models.AnimalService;
+import com.example.gsjavafx.models.RescueAnimal;
 import dev.mccue.feather.DependencyInjector;
 import jakarta.inject.Inject;
 import javafx.fxml.FXML;
@@ -103,7 +103,7 @@ public class MainViewController implements Initializable {
      */
     public void editAnimalWindow(RescueAnimal selectedAnimal) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/crud/gsjavafx/animalView.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/gsjavafx/animalView.fxml"));
             loader.setControllerFactory(injector::instance);
             Parent root = loader.load();
             if (selectedAnimal != null) {

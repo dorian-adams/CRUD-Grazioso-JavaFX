@@ -1,4 +1,4 @@
-module com.crud.gsjavafx {
+module com.example.gsjavafx {
     requires javafx.controls;
     requires javafx.fxml;
     requires javafx.web;
@@ -14,12 +14,12 @@ module com.crud.gsjavafx {
     requires com.zaxxer.hikari;
     requires dev.mccue.feather;
 
-    opens com.crud.gsjavafx to javafx.fxml;
-    exports com.crud.gsjavafx;
-    exports com.crud.gsjavafx.controllers;
-    opens com.crud.gsjavafx.controllers to javafx.fxml;
-    exports com.crud.gsjavafx.config;
-    opens com.crud.gsjavafx.config to javafx.fxml;
-    exports com.crud.gsjavafx.dao;
-    opens com.crud.gsjavafx.dao to javafx.fxml;
+    opens com.example.gsjavafx to javafx.fxml;
+    exports com.example.gsjavafx;
+    exports com.example.gsjavafx.controllers;
+    opens com.example.gsjavafx.controllers to javafx.fxml;
+    exports com.example.gsjavafx.config;
+    opens com.example.gsjavafx.config to javafx.fxml;
+    exports com.example.gsjavafx.dao;
+    opens com.example.gsjavafx.dao to javafx.fxml;
 }
